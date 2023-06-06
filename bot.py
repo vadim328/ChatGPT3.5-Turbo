@@ -2,12 +2,17 @@ import logging
 from telegram import __version__ as TG_VER
 from telegram import ForceReply, Update
 from telegram.ext import Application, CommandHandler, ContextTypes, MessageHandler, filters
+from telegram.helpers import escape_markdown
 import requests
+# import openai
+import re
 
 from dotenv import dotenv_values
 
 env = dotenv_values(".env")
-
+# openai.api_key = env['GPT_URL']
+# openai.organization = env['GPT_ORG']
+# openai.api_key.set(env['GPT_URL'])
 try:
     from telegram import __version_info__
 except ImportError:
@@ -41,17 +46,34 @@ async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
 async def echo(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     try:
         response = send_request(update.message.text)
-        await update.message.reply_text(response)
+        pattern = re.compile(r"```[a-zA-Z]+")
+        result = re.sub(pattern, "", response)
+        escaped_text = escape_markdown(result, version=1)
+        await update.message.reply_text(escaped_text, parse_mode='Markdown')
     except:
-        await update.message.reply_text(update.message.text)
+        await update.message.reply_text('Что то пошло не так, повторите вопрос.')
 
 
-def send_request(message):
+def send_request(prompt, model="gpt-3.5-turbo", max_tokens=60):
+    # # model = "text-davinci-002"
+    # max_tokens = 1024
+    # prompt = "Write a short story about a man who finds a mysterious key in his garden."
+    # response = openai.Completion.create(
+    #   engine=model,
+    #   prompt=prompt,
+    #   max_tokens=max_tokens,
+    #   n=1,
+    #   stop=None,
+    #   temperature=0.5,
+    # )
+    # text = response.choices[0].text.strip()
+    # return text
     url = env['GPT_URL']
-    headers = {"Authorization": "Bearer " + env["GPT_TOKEN"]}
-    data = {"message": message}
-    response = requests.post(url, headers=headers, data=data)
-    return response.json()["generated_text"]
+    headers = {"Authorization": "Bearer " + env["GPT_TOKEN"], "Content-Type": "application/json"}
+    data = {"model": model, "messages": [{"role": "user", "content": prompt}]}
+    response = requests.post(url, headers=headers, json=data)
+    print(response.json())
+    return response.json()['choices'][0]['message']['content']
 
 
 def main() -> None:
