@@ -1,11 +1,12 @@
 import logging
 from telegram import __version__ as TG_VER
 from telegram import ForceReply, Update
+from telegram.constants import ParseMode
 from telegram.ext import Application, CommandHandler, ContextTypes, MessageHandler, filters
-from telegram.helpers import escape_markdown
 import requests
 # import openai
 import re
+import pdb
 
 from dotenv import dotenv_values
 
@@ -46,12 +47,16 @@ async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
 async def echo(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     try:
         response = send_request(update.message.text)
-        pattern = re.compile(r"```[a-zA-Z]+")
-        result = re.sub(pattern, "", response)
-        escaped_text = escape_markdown(result, version=1)
-        await update.message.reply_text(escaped_text, parse_mode='Markdown')
+        escaped_text = escape_chars(response)
+        await update.message.reply_text(escaped_text, parse_mode=ParseMode.MARKDOWN_V2)
     except:
         await update.message.reply_text('Что то пошло не так, повторите вопрос.')
+
+
+def escape_chars(text):
+    # escape_chars = r"\_*[]()~`>#+-=|{}.!"
+    pattern = r"\_*[]()~>#+-=|{}.!"
+    return re.sub(f"([{re.escape(pattern)}])", r"\\\1", text)
 
 
 def send_request(prompt, model="gpt-3.5-turbo", max_tokens=60):
