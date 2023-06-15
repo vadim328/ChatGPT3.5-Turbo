@@ -3,3 +3,8 @@ fastapi
 python-dotenv
 pytest
 requests
+aiormq
+termcolor
+asyncio
+pika
+aio_pika

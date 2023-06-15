@@ -9,10 +9,16 @@ import requests
 # import openai
 import re
 import pdb
+from consumer.subscriptions import mq, connect_to_broker
+# from fastapi import FastAPI
+# from rabbitmq import publish_message
+# from producer import methods as producer_methods
 
-from dotenv import dotenv_values
+# app = FastAPI()
 
-env = dotenv_values(".env")
+from settings import SERVER_URL, BOT_TOKEN
+
+# env = dotenv_values(".env")
 # openai.api_key = env['GPT_URL']
 # openai.organization = env['GPT_ORG']
 # openai.api_key.set(env['GPT_URL'])
@@ -34,7 +40,16 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 
+# @app.on_event('startup')
+# async def start_message_consuming():
+#     channel = await connect_to_broker()
+#     mq.channel = channel
+
+
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    # await mq_send_message()
+    # publish_message("Hello from FastAPI!")
+    await producer_methods.send_message_to_internal_messager('')
     user = update.effective_user
     await update.message.reply_html(
         rf"Привет {user.mention_html()}! Задай свой вопрос:",
@@ -44,6 +59,11 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 
 async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     await update.message.reply_text("Помощь")
+
+
+# async def mq_send_message():
+#     routing_key = "mq_test_queue"
+#     await mq.send(routing_key, "hello world")
 
 
 # async def echo(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
@@ -66,7 +86,7 @@ async def echo(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 
 
 def send_api(message):
-    url = env['SERVER_URL'] + '/bot'
+    url = SERVER_URL + '/bot'
     headers = {"Content-Type": "application/json"}
     # data = {"messages": message}
     response = requests.post(url, headers=headers, json=message)
@@ -91,7 +111,7 @@ def escape_chars(text):
 
 def main() -> None:
     # application = Application.builder().token(env["BOT_TOKEN"]).read_timeout(30).write_timeout(30).build()
-    application = Application.builder().token(env["BOT_TOKEN"]).read_timeout(60).get_updates_read_timeout(60).build()
+    application = Application.builder().token(BOT_TOKEN).read_timeout(60).get_updates_read_timeout(60).build()
     application.add_handler(CommandHandler("start", start))
     application.add_handler(CommandHandler("help", help_command))
     # application.add_handler(CommandHandler("api", api_command))

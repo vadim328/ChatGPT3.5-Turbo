@@ -4,3 +4,7 @@ pytest
 fastapi
 uvicorn
 requests
+aio_pika
+pika
+aiormq
+termcolor
