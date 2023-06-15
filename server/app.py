@@ -32,7 +32,10 @@ async def image():
 
 def send_request(prompt, model="gpt-3.5-turbo", max_tokens=60):
     url = env['GPT_URL']
-    headers = {"Authorization": "Bearer " + env["GPT_TOKEN"], "Content-Type": "application/json"}
+    headers = {
+        "Authorization": "Bearer " + env["GPT_TOKEN"],
+        "Content-Type": "application/json"
+    }
     data = {"model": model, "messages": [{"role": "user", "content": prompt}]}
     response = requests.post(url, headers=headers, json=data)
     print(response.json())
@@ -42,7 +45,10 @@ def send_request(prompt, model="gpt-3.5-turbo", max_tokens=60):
 # возвращает ссылку на изображение, нужно сделать скачиватель изображения и отправщик в тг-бот
 def get_image(prompt):
     url = 'https://api.openai.com/v1/images/generations'
-    headers = {"Authorization": "Bearer " + env["GPT_TOKEN"], "Content-Type": "application/json"}
-    data = {"prompt": prompt, "n": 2, "size": "1024x1024"} # n - кол-во результатов
+    headers = {
+        "Authorization": "Bearer " + env["GPT_TOKEN"],
+        "Content-Type": "application/json"
+    }
+    data = {"prompt": prompt, "n": 2, "size": "512x512"} # n - кол-во результатов
     response = requests.post(url, headers=headers, json=data)
     return response.json()
