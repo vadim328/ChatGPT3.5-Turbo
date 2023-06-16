@@ -1,16 +1,35 @@
 version: "3.8"
 services:
+
     bot:
         build:
             context: .
             dockerfile: bot/Dockerfile
+        environment:
+            SERVER_HOST: server
         image: bot
-        container_name: tg-bot
+        networks:
+            - microservices
+#        ports:
+#            - 5000:5000
     server:
         build:
             context: .
             dockerfile: server/Dockerfile
         image: server
-        container_name: api-server
+        networks:
+            - microservices
         ports:
             - 8080:8080
+
+    rabbitmq:
+        platform: linux/x86_64
+        container_name: rabbitmq
+        image: rabbitmq:management-alpine
+        ports:
+            - 5672:5672
+        expose:
+            - 5672
+
+networks:
+    microservices:

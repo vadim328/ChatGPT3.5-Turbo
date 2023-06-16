@@ -1,8 +1,9 @@
 from fastapi import FastAPI, Body
-from typing import Dict, Any
-from openai_api import send_request, get_image, translate
+from dotenv import dotenv_values
+import requests
 
 
+env = dotenv_values(".env")
 app = FastAPI()
 
 
@@ -12,9 +13,9 @@ async def root():
 
 
 @app.post("/bot")
-async def bot(data: Dict[str, Any]):
+async def bot(data: str = Body()):
     print(data)
-    resp = send_request(data['messages'])
+    resp = send_request(data)
     return {"message": resp}
 
 
@@ -24,7 +25,30 @@ async def hello():
 
 
 @app.post("/image")
-async def image(data: Dict[str, Any]):
-    translated_result = translate(data["message"])
-    response = get_image(translated_result['choices'][0]['text'])
-    return {"image_url": response}
+async def image():
+    resp = get_image('A cute baby sea otter wearing a beret')
+    return {"message": resp}
+
+
+def send_request(prompt, model="gpt-3.5-turbo", max_tokens=60):
+    url = env['GPT_URL']
+    headers = {
+        "Authorization": "Bearer " + env["GPT_TOKEN"],
+        "Content-Type": "application/json"
+    }
+    data = {"model": model, "messages": [{"role": "user", "content": prompt}]}
+    response = requests.post(url, headers=headers, json=data)
+    print(response.json())
+    return response.json()['choices'][0]['message']['content']
+
+
+# возвращает ссылку на изображение, нужно сделать скачиватель изображения и отправщик в тг-бот
+def get_image(prompt):
+    url = 'https://api.openai.com/v1/images/generations'
+    headers = {
+        "Authorization": "Bearer " + env["GPT_TOKEN"],
+        "Content-Type": "application/json"
+    }
+    data = {"prompt": prompt, "n": 2, "size": "512x512"} # n - кол-во результатов
+    response = requests.post(url, headers=headers, json=data)
+    return response.json()

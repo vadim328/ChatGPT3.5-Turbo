@@ -1,4 +1,7 @@
+python-telegram-bot
 python-dotenv
 pytest
+fastapi
+uvicorn
 requests
 telebot
