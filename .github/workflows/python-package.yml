@@ -42,6 +42,17 @@ jobs:
         flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
         # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+    - name: 'Create env file'
+      working-directory: ./server
+      run: |
+        touch .env
+        echo OPENAI_ACCESS_TOKEN="xxx1secret0token" >> .env
+        echo OPENAI_COMPLETIONS_URL="https://api.openai.com/v1/chat/completions" >> .env
+        echo OPENAI_IMAGE_URL="https://api.openai.com/v1/images/generations" >> .env
+        echo OPENAI_TRANSLATE_URL="https://api.openai.com/v1/completions" >> .env
+        echo OPENAI_ORG="org-abcd" >> .env
+        echo OPENAI_GPT_MODEL="gpt-3.5-turbo" >> .env
+        cat .env
     - name: Test server app with pytest
       working-directory: ./server
       run: |
