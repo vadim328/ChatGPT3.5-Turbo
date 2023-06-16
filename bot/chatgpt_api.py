@@ -1,13 +1,11 @@
 import requests
-from dotenv import dotenv_values
-
-env = dotenv_values(".env")
+from settings import GPT_TOKEN
 
 
 def use_api_chatgpt(mes):
     headers = {
         'Content-Type': 'application/json',
-        'Authorization': 'Bearer OPENAI_API_KEY',
+        'Authorization': 'Bearer ' + GPT_TOKEN,
     }
 
     json_data = {
@@ -22,5 +20,6 @@ def use_api_chatgpt(mes):
     }
 
     response = requests.post('https://api.openai.com/v1/chat/completions', headers=headers, json=json_data)
+    print(response)
     resp_dickt = response.json()
     return resp_dickt['choices'][0]['message']['content']
