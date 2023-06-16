@@ -1,15 +1,11 @@
 import logging
 import telebot
-import telegram.constants
 from telebot import types
-from dotenv import dotenv_values
-import requests
 import re
-import openai_api
+from settings import BOT_TOKEN
+from api import get_image, send_api
 
-
-env = dotenv_values(".env")
-bot = telebot.TeleBot('TOKEN')
+bot = telebot.TeleBot(BOT_TOKEN)
 
 
 @bot.message_handler(commands=['start'])
@@ -20,9 +16,9 @@ def start_message(message):
 @bot.message_handler(commands=['button'])
 def button_message(message):
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
-    item1 = types.KeyboardButton("Как использовать?")
-    item2 = types.KeyboardButton("Сгенерировать изображение")
-    markup.add(item1, item2)
+    how_to_button = types.KeyboardButton("Как использовать?")
+    image_button = types.KeyboardButton("Сгенерировать изображение")
+    markup.add(how_to_button, image_button)
 
 
 @bot.message_handler(content_types=['text'])
@@ -35,20 +31,21 @@ def get_text_messages(message):
         bot.send_message(message.chat.id, "Информация о возможностях")
     elif message.text == "Сгенерировать изображение" or message.text == "/img":
         mesg = bot.send_message(message.chat.id, 'Что хотите сгенерировать?')
-        bot.register_next_step_handler(mesg, openai_api.get_image)
-
+        bot.register_next_step_handler(mesg, send_photo)
     else:
-        msg = openai_api.use_api_chatgpt(message.text)
-        escaped_text = escape_chars(msg)
-        parse_mode = telegram.constants.ParseMode.MARKDOWN_V2
-        bot.send_message(message.from_user.id, escaped_text, parse_mode=parse_mode)
+        resp = send_api(message.text)
+        escaped_text = escape_chars(resp['message'])
+        bot.send_message(message.from_user.id, escaped_text, parse_mode='MarkdownV2')
+
+
+def send_photo(message):
+    image_url = get_image(message)
+    bot.send_photo(message.chat.id, image_url)
 
 
 def escape_chars(text):
-    # escape_chars = r"\_*[]()~`>#+-=|{}.!"
     pattern = r"\_*[]()~>#+-=|{}.!"
     return re.sub(f"([{re.escape(pattern)}])", r"\\\1", text)
 
 
 bot.infinity_polling()
-#bot.polling(none_stop=True, interval=0)
