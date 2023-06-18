@@ -28,7 +28,7 @@ async def image(data: Dict[str, Any]):
             status_code=403, detail="Authentication failed"
         )
     translated_result = translate(data["prompt"])
-    response = get_image(translated_result['choices'][0]['text'])
+    response = get_image(translated_result['choices'][0]['text'], data["count_img"])
     return {"image_urls": response}
 
 

@@ -10,9 +10,9 @@ def retrieve_bot_answer(message):
     return response
 
 
-def generate_image(message):
+def generate_image(message, img_prompt):
     url = SERVER_URL + '/image'
     headers = {"Content-Type": "application/json"}
-    data = {"token": FASTAPI_ACCESS_TOKEN, "prompt": message.text}
+    data = {"token": FASTAPI_ACCESS_TOKEN, "prompt": img_prompt, "count_img": int(message.text)}
     response = requests.post(url, headers=headers, json=data)
     return response
