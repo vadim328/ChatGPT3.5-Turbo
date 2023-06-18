@@ -1,5 +1,5 @@
 import requests
-from settings import OPENAI_ACCESS_TOKEN, OPENAI_COMPLETIONS_URL, OPENAI_ORG, OPENAI_GPT_MODEL, OPENAI_IMAGE_URL, OPENAI_TRANSLATE_URL
+from settings import OPENAI_ACCESS_TOKEN, OPENAI_COMPLETIONS_URL, OPENAI_GPT_MODEL, OPENAI_IMAGE_URL, OPENAI_TRANSLATE_URL
 
 
 def send_request(prompt, model=OPENAI_GPT_MODEL, max_tokens=60):
@@ -10,7 +10,7 @@ def send_request(prompt, model=OPENAI_GPT_MODEL, max_tokens=60):
 
 
 def get_image(prompt):
-    data = {"prompt": prompt, "n": 2, "size": "512x512"}
+    data = {"prompt": prompt, "n": 1, "size": "512x512"}
     response = requests.post(OPENAI_IMAGE_URL, headers=query_headers(), json=data)
     img_url = response.json()['data'][0]['url']
     return img_url

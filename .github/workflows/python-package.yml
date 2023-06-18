@@ -50,7 +50,6 @@ jobs:
         echo OPENAI_COMPLETIONS_URL="https://api.openai.com/v1/chat/completions" >> .env
         echo OPENAI_IMAGE_URL="https://api.openai.com/v1/images/generations" >> .env
         echo OPENAI_TRANSLATE_URL="https://api.openai.com/v1/completions" >> .env
-        echo OPENAI_ORG="org-abcd" >> .env
         echo OPENAI_GPT_MODEL="gpt-3.5-turbo" >> .env
         echo FASTAPI_ACCESS_TOKEN="123" >> .env
         cat .env
