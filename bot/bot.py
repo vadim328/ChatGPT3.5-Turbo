@@ -49,7 +49,8 @@ def get_text_messages(message):
 def send_photo(message):
     response = generate_image(message)
     if response.status_code == 200:
-        bot.send_photo(message.chat.id, response.json()['image_url'])
+        for image in response.json()['image_urls']:
+            bot.send_photo(message.chat.id, image['url'])
     else:
         bot.send_message(message.chat.id, response.json()['detail'])
 

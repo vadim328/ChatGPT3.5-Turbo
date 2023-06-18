@@ -29,7 +29,7 @@ async def image(data: Dict[str, Any]):
         )
     translated_result = translate(data["prompt"])
     response = get_image(translated_result['choices'][0]['text'])
-    return {"image_url": response}
+    return {"image_urls": response}
 
 
 def authorization(token):
