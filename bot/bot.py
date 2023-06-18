@@ -1,4 +1,3 @@
-import logging
 import telebot
 from telebot import types
 import re
@@ -33,13 +32,16 @@ def get_text_messages(message):
     elif message.text == "Как использовать?":
         bot.send_message(message.chat.id, "Информация о возможностях")
     elif message.text == "Сгенерировать изображение" or message.text == "/img":
-        context_message = bot.send_message(message.chat.id, 'Что хотите сгенерировать?')
+        context_message = bot.send_message(message.chat.id,
+                                           'Что хотите сгенерировать?')
         bot.register_next_step_handler(context_message, send_photo)
     else:
         response = retrieve_bot_answer(message.text)
         if response.status_code == 200:
             escaped_text = escape_chars(response.json()['message'])
-            bot.send_message(message.from_user.id, escaped_text, parse_mode='MarkdownV2')
+            bot.send_message(message.from_user.id,
+                             escaped_text,
+                             parse_mode='MarkdownV2')
         else:
             bot.send_message(message.chat.id, response.json()['detail'])
 

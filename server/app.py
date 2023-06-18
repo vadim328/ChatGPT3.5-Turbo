@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Body, HTTPException
+from fastapi import FastAPI, HTTPException
 from typing import Dict, Any
 from openai_api import send_request, get_image, translate
 from settings import FASTAPI_ACCESS_TOKEN
