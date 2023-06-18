@@ -1,16 +1,17 @@
-import logging
 import telebot
 from telebot import types
 import re
 from settings import BOT_TOKEN
-from api import get_image, send_api
+from api import generate_image, retrieve_bot_answer
 
 bot = telebot.TeleBot(BOT_TOKEN)
 
 
 @bot.message_handler(commands=['start'])
 def start_message(message):
-    bot.send_message(message.chat.id, 'Привет')
+    r = bot.send_message(message.chat.id, 'Привет')
+    print('#############')
+    print(r)
 
 
 @bot.message_handler(commands=['button'])
@@ -19,6 +20,7 @@ def button_message(message):
     how_to_button = types.KeyboardButton("Как использовать?")
     image_button = types.KeyboardButton("Сгенерировать изображение")
     markup.add(how_to_button, image_button)
+    bot.send_message(message.chat.id, 'Вот тебе кнопки!', reply_markup=markup)
 
 
 @bot.message_handler(content_types=['text'])
@@ -30,17 +32,27 @@ def get_text_messages(message):
     elif message.text == "Как использовать?":
         bot.send_message(message.chat.id, "Информация о возможностях")
     elif message.text == "Сгенерировать изображение" or message.text == "/img":
-        mesg = bot.send_message(message.chat.id, 'Что хотите сгенерировать?')
-        bot.register_next_step_handler(mesg, send_photo)
+        context_message = bot.send_message(message.chat.id,
+                                           'Что хотите сгенерировать?')
+        bot.register_next_step_handler(context_message, send_photo)
     else:
-        resp = send_api(message.text)
-        escaped_text = escape_chars(resp['message'])
-        bot.send_message(message.from_user.id, escaped_text, parse_mode='MarkdownV2')
+        response = retrieve_bot_answer(message.text)
+        if response.status_code == 200:
+            escaped_text = escape_chars(response.json()['message'])
+            bot.send_message(message.from_user.id,
+                             escaped_text,
+                             parse_mode='MarkdownV2')
+        else:
+            bot.send_message(message.chat.id, response.json()['detail'])
 
 
 def send_photo(message):
-    image_url = get_image(message)
-    bot.send_photo(message.chat.id, image_url)
+    response = generate_image(message)
+    if response.status_code == 200:
+        for image in response.json()['image_urls']:
+            bot.send_photo(message.chat.id, image['url'])
+    else:
+        bot.send_message(message.chat.id, response.json()['detail'])
 
 
 def escape_chars(text):
