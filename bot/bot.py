@@ -12,12 +12,18 @@ def start_message(message):
     bot.send_message(message.chat.id, 'Привет')
 
 
+@bot.message_handler(commands=['help'])
+def help_message(message):
+    bot.send_message(message.chat.id, 'Напиши /button')
+
+
 @bot.message_handler(commands=['button'])
 def button_message(message):
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
-    how_to_button = types.KeyboardButton("Как использовать?")
-    image_button = types.KeyboardButton("Сгенерировать изображение")
-    markup.add(how_to_button, image_button)
+    how_to_button = types.KeyboardButton("Инфо")
+    image_button = types.KeyboardButton("DALLE")
+    info_button = types.KeyboardButton("Кто мы?")
+    markup.add(how_to_button, image_button, info_button)
     bot.send_message(message.chat.id, 'Вот тебе кнопки!', reply_markup=markup)
 
 
@@ -26,10 +32,20 @@ def get_text_messages(message):
     if message.text == "Привет" or message.text == "привет":
         bot.send_message(message.chat.id, "Привет! \nЗадай мне свой вопрос ;)")
     elif message.text == "/help":
-        bot.send_message(message.chat.id, "Напиши Привет")
-    elif message.text == "Как использовать?":
-        bot.send_message(message.chat.id, "Информация о возможностях")
-    elif message.text == "Сгенерировать изображение" or message.text == "/img":
+        bot.send_message(message.chat.id, "Напиши /button")
+    elif message.text == "Инфо.":
+        bot.send_message(message.chat.id, "Информация о боте:\n"
+                                          "Бот построен на основе языковой модели OpenAI GPT-3.5 Turbo, "
+                                          "созданной для выполнения различных задач обработки естественного языка.\n"
+                                          "Также данный бот свособен генерировать изображения "
+                                          "с помощью нейронной сети DALLE.\n"
+                                          "Для общения с ботом просто начни писать. "
+                                          "Для генерации изображений нажми на кнопку 'Сгенерировать изображение'"
+                                          "или напиши /img.")
+    elif message.text == "Кто мы?":
+        bot.send_message(message.chat.id, "Мы команда разработчиков Уральского федерального университета."
+                                          "Наш GitHub: https://github.com/vadim328/ChatGPT3.5-Turbo")
+    elif message.text == "DALLE" or message.text == "/img":
         context_message = bot.send_message(message.chat.id,
                                            'Что хотите сгенерировать?')
         bot.register_next_step_handler(context_message, count_image)
