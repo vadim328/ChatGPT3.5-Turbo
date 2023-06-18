@@ -110,7 +110,7 @@ FASTAPI_ACCESS_TOKEN='123'
 #### Запуск телеграм бота
 Перейти в папку микросервиса `/bot`
 
-Создать виртиуальное окружение python и активировать: 
+Создать виртуальное окружение python и активировать: 
 ```commandline
 $ python -m venv botenv
 $ source botenv/bin/activate
@@ -130,7 +130,7 @@ $ python bot.py
 #### Запуск Fast API сервера
 Перейти в папку микросервиса `/server`
 
-Создать виртиуальное окружение python и активировать: 
+Создать виртуальное окружение python и активировать: 
 ```commandline
 $ python -m venv serverenv
 $ source serverenv/bin/activate
@@ -151,7 +151,7 @@ uvicorn app:app
 ### Запуск проекта в докер контейнере
 Для удобства развертывания добавили Dockerfile для каждого микросервиса.
 
-Можно запустить таким образом (примерчание: при запуске проекта в докер-контейнере отдельная установка зависимостей из requirements.txt не требуется):
+Можно запустить таким образом (примечание: при запуске проекта в докер-контейнере отдельная установка зависимостей из requirements.txt не требуется):
 
 ```bash
 docker-compose build
@@ -214,11 +214,11 @@ _При разворачивании проекта на локальном ПК
 - Fast API - современный веб-фреймворк для создания REST API на Python. Он основан на стандарте OpenAPI и использует типизацию данных и асинхронное программирование, что делает его быстрым, эффективным и простым в использовании.
 
 ### Ссылки
--[FastAPI](https://fastapi.tiangolo.com/)
--[Telebot](https://github.com/eternnoir/pyTelegramBotAPI)
--[Telegram API](https://core.telegram.org/)
--[OpenAI API reference](https://platform.openai.com/docs/api-reference)
--[OpenAI Documentation](https://platform.openai.com/docs/introduction)
+- [FastAPI](https://fastapi.tiangolo.com/)
+- [Telebot](https://github.com/eternnoir/pyTelegramBotAPI)
+- [Telegram API](https://core.telegram.org/)
+- [OpenAI API reference](https://platform.openai.com/docs/api-reference)
+- [OpenAI Documentation](https://platform.openai.com/docs/introduction)
 
 
 ### Авторы проекта
