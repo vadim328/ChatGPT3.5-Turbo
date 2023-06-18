@@ -188,12 +188,11 @@ http://83.220.171.48:8080/docs
 
 <img src=".github/generate_sample.jpg" alt="json-answer" width="200"/>
 
-Ответ возвращаеться в виде json со ссылкой на сгенерированное изображение.
+Ответ возвращается в виде json со ссылкой на сгенерированное изображение.
 
 _При разворачивании проекта на локальном ПК, fast api сервер обычно доступен по адресу http://127.0.0.1:8000_
 
 #### Пример как работает программа
-Скриншоты телеграм бота и fast api
 
 Пример ответа бота:
 
@@ -210,17 +209,16 @@ _При разворачивании проекта на локальном ПК
 Мы используем GitHub issues для отслеживания ошибок. Пожалуйста, убедитесь, что ваше описание понятно и содержит достаточные инструкции для воспроизведения проблемы.
 
 ### Глоссарий
-- оставить или удалить этот раздел?
 - OpenAI - исследовательско-разработческая компания, которая занимается разработкой искусственного интеллекта. Разработчик ChatGPT 3, 4 итд.
 - Telebot - библиотека Python для создания Telegram ботов. Она предоставляет простой и удобный интерфейс для взаимодействия с Telegram API и создания функциональных ботов.
 - Fast API - современный веб-фреймворк для создания REST API на Python. Он основан на стандарте OpenAPI и использует типизацию данных и асинхронное программирование, что делает его быстрым, эффективным и простым в использовании.
 
 ### Ссылки
-[FastAPI](https://fastapi.tiangolo.com/)
-[Telebot](https://github.com/eternnoir/pyTelegramBotAPI)
-[Telegram API](https://core.telegram.org/)
-[OpenAI API reference](https://platform.openai.com/docs/api-reference)
-[OpenAI Documentation](https://platform.openai.com/docs/introduction)
+-[FastAPI](https://fastapi.tiangolo.com/)
+-[Telebot](https://github.com/eternnoir/pyTelegramBotAPI)
+-[Telegram API](https://core.telegram.org/)
+-[OpenAI API reference](https://platform.openai.com/docs/api-reference)
+-[OpenAI Documentation](https://platform.openai.com/docs/introduction)
 
 
 ### Авторы проекта
