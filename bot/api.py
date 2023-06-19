@@ -27,4 +27,3 @@ def input_validation(count_img):
         return count_img
     except ValueError:
         return 1
-
