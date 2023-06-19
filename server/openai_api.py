@@ -9,8 +9,8 @@ def send_request(prompt, model=OPENAI_GPT_MODEL, max_tokens=60):
     return response.json()['choices'][0]['message']['content']
 
 
-def get_image(prompt):
-    data = {"prompt": prompt, "n": 3, "size": "512x512"}
+def get_image(prompt, count_img):
+    data = {"prompt": prompt, "n": count_img, "size": "512x512"}
     response = requests.post(OPENAI_IMAGE_URL, headers=query_headers(), json=data)
     print(response.json())
     img_urls = response.json()['data']
