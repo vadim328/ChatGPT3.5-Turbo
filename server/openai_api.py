@@ -1,5 +1,6 @@
 import requests
-from settings import OPENAI_ACCESS_TOKEN, OPENAI_COMPLETIONS_URL, OPENAI_GPT_MODEL, OPENAI_IMAGE_URL, OPENAI_TRANSLATE_URL
+from settings import OPENAI_ACCESS_TOKEN, OPENAI_COMPLETIONS_URL, OPENAI_GPT_MODEL, OPENAI_IMAGE_URL, \
+    OPENAI_TRANSLATE_URL
 
 
 def send_request(prompt, model=OPENAI_GPT_MODEL, max_tokens=60):
@@ -10,7 +11,9 @@ def send_request(prompt, model=OPENAI_GPT_MODEL, max_tokens=60):
 
 
 def get_image(prompt, count_img):
-    data = {"prompt": prompt, "n": count_img, "size": "512x512"}
+    count_image = input_validation(count_img)
+    data = {"prompt": prompt, "n": count_image, "size": "512x512"}
+    print(data)
     response = requests.post(OPENAI_IMAGE_URL, headers=query_headers(), json=data)
     print(response.json())
     img_urls = response.json()['data']
@@ -36,3 +39,13 @@ def query_headers():
         "Authorization": "Bearer " + OPENAI_ACCESS_TOKEN,
         "Content-Type": "application/json"
     }
+
+
+def input_validation(count_img):
+    try:
+        count_img = int(count_img)
+        if count_img > 5:
+            return 5
+        return count_img
+    except ValueError:
+        return 1
