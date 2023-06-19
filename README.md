@@ -1,12 +1,25 @@
 # Итоговой проект по программной инженерии: Телеграм бот + Fast API + OpenAI API
 
-### Оглавление
 
 Проект состоит из двух микросервисов: телеграм бота и Fast API сервера.
 
 Ссылка на проект: http://83.220.171.48:8080/docs 
 
 Ссылка на телеграм бот: https://t.me/urfus_bot
+
+### Оглавление
+#### Оглавление
+- [Цель проекта](#цель-проекта)
+- [Описание проекта](#описание-проекта)
+- [Настройка окружения](#настройка-окружения)
+- [Запуск проекта](#запуск-проекта)
+- [Запуск тестов](#запуск-тестов)
+- [Работа с проектом](#работа-с-проектом)
+- [Пример как работает программа](#пример-как-работает-программа)
+- [Issues](#issues)
+- [Глоссарий](#глоссарий)
+- [Ссылки](#ссылки)
+- [Авторы проекта](#авторы-проекта)
 
 
 ### Цель проекта
@@ -50,19 +63,19 @@ curl -X POST -H "Content-Type: application/json" -d '{"token": "123", "prompt": 
 
 Склонируйте репозиторий:
 ```commandline
-$ git clone https://github.com/vadim328/ChatGPT3.5-Turbo.git
+git clone https://github.com/vadim328/ChatGPT3.5-Turbo.git
 ```
 
 Перейдите в директорию проекта:
 ```commandline
-$ cd ChatGPT3.5-Turbo
+cd ChatGPT3.5-Turbo
 ```
 
 #### Настройка окружения телеграм бота
 
 В директории `/bot` создать файл `.env` (для примера есть файл `/bot/.env.example`).
 
-В файле `.env` прописать следующие перменные окружения:
+В файле `.env` прописать следующие переменные окружения:
 
 ```
 BOT_TOKEN=12345:AbcdeqwertY
@@ -80,7 +93,7 @@ SERVER_URL='http://server:8080'
 
 В директории `/server` создать файл `.env` (для примера есть файл `/server/.env.example`).
 
-В файле `.env` прописать следующие перменные окружения:
+В файле `.env` прописать следующие переменные окружения:
 
 ```
 OPENAI_ACCESS_TOKEN="my token"
@@ -110,10 +123,11 @@ FASTAPI_ACCESS_TOKEN='123'
 #### Запуск телеграм бота
 Перейти в папку микросервиса `/bot`
 
-Создать виртиуальное окружение python и активировать: 
+Создать виртуальное окружение python и активировать: 
 ```commandline
-$ python -m venv botenv
-$ source botenv/bin/activate
+python -m venv botenv
+
+source botenv/bin/activate
 ```
 
 Установите зависимости:
@@ -124,16 +138,17 @@ pip install -r requirements.txt
 Запустить бота:
 
 ```commandline
-$ python bot.py
+python bot.py
 ```
 
 #### Запуск Fast API сервера
 Перейти в папку микросервиса `/server`
 
-Создать виртиуальное окружение python и активировать: 
+Создать виртуальное окружение python и активировать: 
 ```commandline
-$ python -m venv serverenv
-$ source serverenv/bin/activate
+python -m venv serverenv
+
+source serverenv/bin/activate
 ```
 
 Установите зависимости:
@@ -214,11 +229,11 @@ _При разворачивании проекта на локальном ПК
 - Fast API - современный веб-фреймворк для создания REST API на Python. Он основан на стандарте OpenAPI и использует типизацию данных и асинхронное программирование, что делает его быстрым, эффективным и простым в использовании.
 
 ### Ссылки
--[FastAPI](https://fastapi.tiangolo.com/)
--[Telebot](https://github.com/eternnoir/pyTelegramBotAPI)
--[Telegram API](https://core.telegram.org/)
--[OpenAI API reference](https://platform.openai.com/docs/api-reference)
--[OpenAI Documentation](https://platform.openai.com/docs/introduction)
+- [FastAPI](https://fastapi.tiangolo.com/)
+- [Telebot](https://github.com/eternnoir/pyTelegramBotAPI)
+- [Telegram API](https://core.telegram.org/)
+- [OpenAI API reference](https://platform.openai.com/docs/api-reference)
+- [OpenAI Documentation](https://platform.openai.com/docs/introduction)
 
 
 ### Авторы проекта
